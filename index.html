@@ -1,17 +1,197 @@
-<!DOCTYPE html> 
-<html> 
-<body> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamVault - Your Entertainment Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark background similar to streaming services */
+            color: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top for home content */
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 2rem; /* Add some padding from the top */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+        .container {
+            max-width: 90%; /* Fluid width */
+            margin: auto;
+        }
+        /* Removed .card and input-field styles as login is gone */
+        /* Removed .btn-primary and .error-message as login is gone */
 
-<video width="400" controls>
-  <source src="movie1.mp4" type="video/mp4">
-  Your browser does not support HTML video.
-</video>
+        .home-section {
+            display: block; /* Always visible */
+            width: 100%;
+            max-width: 1200px; /* Max width for home content */
+            padding: 0 2rem; /* Adjust padding for direct view */
+            background-color: #1a202c; /* Ensure background color consistency */
+            min-height: 100vh;
+        }
+        .home-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Responsive grid for content cards */
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .content-card {
+            background-color: #2d3748;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease-in-out;
+            cursor: pointer;
+            display: flex; /* Ensure content is laid out nicely */
+            flex-direction: column;
+        }
+        .content-card:hover {
+            transform: scale(1.03);
+        }
+        .content-card video {
+            width: 100%;
+            height: 250px; /* Fixed height for consistency */
+            object-fit: cover;
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+            outline: none; /* Remove default video player outline */
+        }
+        .content-card img {
+            width: 100%;
+            height: 250px; /* Fixed height for consistency */
+            object-fit: cover;
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+        .content-card-info {
+            padding: 1rem;
+            text-align: left;
+            flex-grow: 1; /* Allow info section to take available space */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .content-card-info h3 {
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+            color: #e2e8f0;
+        }
+        .content-card-info p {
+            font-size: 0.875rem;
+            color: #a0aec0;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #4a5568;
+            margin-bottom: 2rem;
+        }
+        .navbar h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+        .navbar button {
+            background-color: #dc2626; /* Red logout button */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.2s;
+        }
+        .navbar button:hover {
+            background-color: #ef4444;
+        }
+        .welcome-title {
+            text-3xl font-bold mb-6 text-white text-left;
+        }
 
-<p>
-Video courtesy of 
-<a href="https://www.bigbuckbunny.org/" target="_blank">Big Buck Bunny</a>.
-</p>
 
-</body> 
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .home-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            .content-card img, .content-card video {
+                height: 200px;
+            }
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .navbar h1 {
+                margin-bottom: 1rem;
+            }
+            /* Removed .card padding as login is gone */
+            body {
+                align-items: flex-start; /* Adjust alignment for smaller screens */
+                padding-top: 1rem; /* Reduced top padding for smaller screens */
+            }
+            .home-section {
+                padding: 0 1rem; /* Reduced horizontal padding for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Home Section (now directly displayed) -->
+    <div id="homeSection" class="home-section">
+        <nav class="navbar">
+            <h1 class="text-white">StreamVault</h1>
+            <!-- Logout button remains for potential future use or to show interaction -->
+            <button id="logoutBtn">Logout</button>
+        </nav>
+        <h2 id="welcomeMessage" class="welcome-title">Welcome to StreamVault!</h2>
+
+        <div class="home-grid">
+            <!-- Content card with video player directly embedded -->
+            <div class="content-card">
+                <video controls autoplay loop preload="metadata" poster="https://placehold.co/300x250/2d3748/a0aec0?text=The+Lost+Relic+Thumbnail">
+                    <!-- IMPORTANT: For reliable web playback, convert your 'movie1.mkv' to MP4 and host it online. -->
+                    <!-- Replace the src below with the public URL of your converted MP4 file. -->
+                    <!-- Example: <source src="https://example.com/your-hosted-movie.mp4" type="video/mp4"> -->
+                    <source src="movie1.mp4" type="video/mp4">
+                    <p class="error-message">
+                        Your browser does not support the video tag or this video format (MKV).
+                        Please ensure the video is in a web-compatible format (like MP4) and hosted on a public server.
+                    </p>
+                </video>
+                <div class="content-card-info">
+                    <h3>The Lost Relic (MKV)</h3>
+                    <p>Adventure, Mystery</p>
+                </div>
+            </div>
+            <!-- Removed other video content cards -->
+        </div>
+    </div>
+
+    <script>
+        // Get references to DOM elements
+        const homeSection = document.getElementById('homeSection');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // Since login is removed, automatically display the home section
+        // No explicit showHomePage() call needed, as it's the default state in HTML.
+
+        // Event listener for logout button (if you want to keep a logout simulation)
+        logoutBtn.addEventListener('click', function() {
+            console.log('Logout functionality (disabled since login is removed).');
+            alert('Logged out! (Login functionality is currently disabled for this demo).');
+            // In a real app, you'd redirect to a login page or clear session here.
+        });
+    </script>
+</body>
 </html>
-
